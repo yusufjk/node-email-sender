@@ -34,6 +34,6 @@ var emailku = {
 }
 
 sender.sendMail(emailku, (error)=>{
-    if(error){console.log('Email gagal terkirim!')}
+    if(error){console.log(error)}
     else{console.log('Email sukses terkirim!')}
 })
