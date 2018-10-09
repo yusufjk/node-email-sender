@@ -1,0 +1,15 @@
+{
+  "name": "lin_exp_nodemailer",
+  "version": "1.0.0",
+  "description": "simple email sender app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lintangwisesa",
+  "license": "ISC",
+  "dependencies": {
+    "nodemailer": "^4.6.8",
+    "xoauth2": "^1.2.0"
+  }
+}
