@@ -29,6 +29,9 @@ var emailku = {
         {
             filename: 'pesan.txt',
             content: 'Halo, apa kabar? Maaf nyepam!'
+        },
+        {
+            path: './tes_email_template.html'
         }
     ]
 }
