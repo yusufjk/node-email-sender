@@ -1,8 +1,9 @@
-var express = require('express')
-var bodyParser = require('body-parser')
-var cors = require('cors')
-var nodemailer = require('nodemailer')
-var xoauth2 = require('xoauth2')
+import response from './response.js'
+import cors from 'cors'
+import express from 'express'
+import bodyParser from 'body-parser'
+import nodemailer from 'nodemailer'
+import 'dotenv/config'
 
 var app = express()
 app.use(cors())
@@ -12,51 +13,36 @@ app.use(bodyParser.json())
 var sender = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'aduhcapekkali@gmail.com',
-        type: 'OAuth2',
-        clientId: 'mysecretclientid',
-        clientSecret: 'mysecretclientsecret',
-        refreshToken: 'mysecretrefreshtoken'
-    }  
+        user: process.env.USERNAME,
+        pass: process.env.PASSWORD,
+    }
 })
 
 // initial route
 app.get('/', (req, res)=>{
-    res.send('<h1>Express & Nodemailer</h1>')
+    res.send('<h1>Node Email Sender</h1>')
 })
 
-// route untuk kirim email
-app.post('/email', (req, res)=>{
-    
-    // deklarasi email yang akan dikirim
-    var emailku = {
-        from: 'superman <superman@dc.com>',
+// route to send email
+app.post('/send-email', (req, res)=>{
+    const emailObj = {
+        from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
         to: req.body.email,
-        subject: `Halo, ${req.body.nama} 🤖`,
-        // text: 'Halo dunia!'
-        html: `<h1>Halo ${req.body.nama} 🤖</h1>`,
-        attachments:[{
-                filename: 'barca.png', 
-                path:'https://vignette.wikia.nocookie.net/logopedia/images/0/0e/Barcelona.png'
-            },
-            {
-                filename: 'pesan.txt',
-                content: 'Halo, apa kabar? Maaf nyepam!'
-            }
-        ]
-    }
+        subject: req.body.subject,
+        html: req.body.message,
+    };
 
-    sender.sendMail(emailku, (error)=>{
+    sender.sendMail(emailObj, (error)=>{
         if(error){
             console.log(error)
-            res.send(error)
+            response(res, 200, false, 'Error while sending email!.')
         } else {
-            console.log('Email sukses terkirim!')
-            res.send('Email sukses terkirim!')
+            console.log('Email sent!')
+            response(res, 200, true, 'Email sent successfully.')
         }
     })
 })
 
-app.listen(3210, ()=>{
-    console.log('Server aktif @port 3210!')
+app.listen(process.env.PORT, ()=>{
+    console.log(`Node Email Sender running on port ${process.env.PORT}`)
 })
