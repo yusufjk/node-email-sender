@@ -5,11 +5,13 @@ import bodyParser from 'body-parser'
 import nodemailer from 'nodemailer'
 import 'dotenv/config'
 
-var app = express()
+const app = express();
 app.use(cors())
 app.use(bodyParser.json())
+const host = process.env.HOST ?? '127.0.0.1'
+const port = parseInt(process.env.PORT ?? 3000)
 
-// deklarasi email transporter
+// create email transporter
 var sender = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -43,6 +45,6 @@ app.post('/send-email', (req, res)=>{
     })
 })
 
-app.listen(process.env.PORT, ()=>{
-    console.log(`Node Email Sender running on port ${process.env.PORT}`)
+app.listen(port, host, () => {
+    console.log(`Server is listening on http://${host}:${port}`)
 })
