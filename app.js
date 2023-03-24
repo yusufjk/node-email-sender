@@ -8,7 +8,6 @@ import 'dotenv/config'
 const app = express();
 app.use(cors())
 app.use(bodyParser.json())
-const host = process.env.HOST ?? '127.0.0.1'
 const port = parseInt(process.env.PORT ?? 3000)
 
 // create email transporter
@@ -45,6 +44,6 @@ app.post('/send-email', (req, res)=>{
     })
 })
 
-app.listen(port, host, () => {
-    console.log(`Server is listening on http://${host}:${port}`)
+app.listen(port, () => {
+    console.log(`Server is listening on port:${port}`)
 })
